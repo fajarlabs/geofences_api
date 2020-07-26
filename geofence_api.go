@@ -13,12 +13,18 @@ import (
 )
 
 var DB *gorm.DB
+var username string 
+var password string
+var database string
+var sslmode string
+var hostname string
+var api_port string
 
-	var id string
-	var area_id string
-	var area_name string
-	var kd_kantor_hcms string
-	var kd_kantor_passion string
+var id string
+var area_id string
+var area_name string
+var kd_kantor_hcms string
+var kd_kantor_passion string
 
 type Geofences struct {
   ID string `json:"id"`
@@ -32,11 +38,6 @@ const service_key string = "ed86c18a-50c2-4017-8bbe-733c0591477a"
 
 func init() {
     var errDB error
-    var username string 
-    var password string
-    var database string
-	var sslmode string
-	var hostname string
 
     cfg, errCfg := ini.Load("config.ini")
     if errCfg != nil {
