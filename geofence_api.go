@@ -113,7 +113,7 @@ func checkArea(c *gin.Context) {
 }
 
 func main() {
-	fmt.Println("Service starting..")
+	fmt.Printf("Service starting at %s", api_port)
 	gin.SetMode(gin.ReleaseMode)
 
 	router := gin.New()
@@ -125,4 +125,5 @@ func main() {
 		v1.GET("/check_area", checkArea)
 	}
 	router.Run(api_port)
+        fmt.Println("Stoped")
 }
