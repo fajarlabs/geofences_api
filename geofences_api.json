@@ -1,0 +1,17 @@
+{
+    "apps":[
+    {
+        "name":"geofences_api_8083",
+        "cwd":".",
+        "script":"/apps/geofences_api/geofence_api",
+        "args":[
+        ],
+        "watch":[
+        ],
+        "node_args":[],
+        "log_date_format":"YYYY-MM-DD HH:mm Z",
+        "exec_interpreter":"",
+        "exec_mode":"fork"
+     }
+   ]
+}
