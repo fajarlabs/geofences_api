@@ -1,7 +1,7 @@
 {
     "apps":[
     {
-        "name":"geofences_api_8083",
+        "name":"geofences_api_8082",
         "cwd":".",
         "script":"/apps/geofences_api/geofence_api",
         "args":[
