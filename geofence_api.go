@@ -19,6 +19,9 @@ var database string
 var sslmode string
 var hostname string
 var api_port string
+var cert_pem string
+var cert_key string
+var use_ssl string
 
 var id string
 var area_id string
@@ -55,6 +58,9 @@ func init() {
     database = cfg.Section("DATABASE").Key("database").String()
     sslmode = cfg.Section("DATABASE").Key("sslmode").String()
     api_port = cfg.Section("APP").Key("api_port").String()
+    cert_pem = cfg.Section("APP").Key("cert_pem").String()
+    cert_key = cfg.Section("APP").Key("cert_key").String()
+    use_ssl = cfg.Section("APP").Key("use_ssl").String()
 
     var queryString = fmt.Sprintf("host=%s user=%s password=%s dbname=%s sslmode=%s", hostname, username, password, database, sslmode)
 
@@ -113,7 +119,7 @@ func checkArea(c *gin.Context) {
 }
 
 func main() {
-	fmt.Println("Service starting..")
+	fmt.Printf("Service starting..%s", api_port)
 	gin.SetMode(gin.ReleaseMode)
 
 	router := gin.New()
@@ -124,5 +130,10 @@ func main() {
 		v1.GET("/", infoAPI)
 		v1.GET("/check_area", checkArea)
 	}
-	router.Run(api_port)
+
+	if use_ssl == "Y" {
+		router.RunTLS(api_port, cert_pem, cert_key)
+	} else {
+		router.Run(api_port)
+	}
 }
