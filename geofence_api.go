@@ -31,10 +31,7 @@ var kd_kantor_passion string
 
 type Geofences struct {
   ID string `json:"id"`
-  Area_id string `json:"news_id"`
   Area_name string `json:"area_name"`
-  Kd_kantor_hcms string `json:"kd_kantor_hcms"`
-  Kd_kantor_passion string `json:"kd_kantor_passion"`
 }
 
 const service_key string = "ed86c18a-50c2-4017-8bbe-733c0591477a"
@@ -84,7 +81,7 @@ func checkArea(c *gin.Context) {
 	key := c.Query("key")
 
 	SearchQuery := `
-	SELECT id, area_id, area_name, kd_kantor_hcms, kd_kantor_passion 
+	SELECT id_geofence_location, area_name  
 	FROM geofences as tb 
 	WHERE ST_Intersects(ST_GeomFromGeoJSON(tb.computed), ST_SetSRID(ST_MakePoint(?, ?),4326)) = '1' 
 	LIMIT 1
@@ -93,13 +90,10 @@ func checkArea(c *gin.Context) {
 	defer rows.Close()
 
 	var id string
-	var area_id string
 	var area_name string
-	var kd_kantor_hcms string
-	var kd_kantor_passion string
 
 	for rows.Next() {
-		rows.Scan(&id, &area_id, &area_name, &kd_kantor_hcms, &kd_kantor_passion)
+		rows.Scan(&id, &area_name)
 	}
 	
 	if err != nil {
@@ -109,7 +103,7 @@ func checkArea(c *gin.Context) {
 			c.JSON(http.StatusOK, gin.H{"status": http.StatusOK, "data": nil })
 		} else {
 			if key == service_key {
-				c.JSON(http.StatusOK, gin.H{"status": http.StatusOK, "data": Geofences{id, area_id, area_name, kd_kantor_hcms, kd_kantor_passion}  })
+				c.JSON(http.StatusOK, gin.H{"status": http.StatusOK, "data": Geofences{id, area_name}  })
 			} else {
 				c.JSON(http.StatusOK, gin.H{"status": http.StatusOK, "message": "Key not valid"})
 			}
